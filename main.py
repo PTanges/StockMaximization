@@ -1,46 +1,29 @@
 # Current Implementation:
 # pip install more-itertools
 
-# Alternate Methods:
-# python.exe -m pip install --upgrade pip
-# python3 -m pip install more_itertools
+# The Stock Price Maximization Problem we are solving is a reskin of the knapsack problem where budget = W (capacity) of knapsack
 
-import re
-from more_itertools import powerset
-
-def createPowerSet(powerSet, companyQuantity):
-    _enumeration = []
-    for i in range(companyQuantity):
-        _enumeration.append(i+1)
-
-    _combinations = []
-    _combinations.append(list(powerset(_enumeration)))
-
-    # DEBUG
-    print("Initial Powerset from itertools module:")
-    print(_combinations)
-    print("\n")
-
-    # Parse Combinations
-    _text = str(_combinations[0])
-    _combinations.clear()
-    _combinations = _text.split("),")
-
-    for line in _combinations:
-        powerSet.append(re.findall(r'\d+', line))
-# end funct
+import SPMP_ExhaustiveApproach
+import SPMP_DynamicApproach
+import SPMP_ReadFile
+import SPMP_DEBUGGER_TOOL
+import SPMP_SETTINGS
 
 def main():
-    powerSet = []
-    companyQuantity = 4
-    createPowerSet(powerSet, companyQuantity)
+    if SPMP_SETTINGS.allowFailsafe:
+        if SPMP_ReadFile.isFileExist() is False:
+            print(f'Unable to find {SPMP_SETTINGS.inputFileName} in local folder.')
+            print("Randomly generating new stocks...")
+            SPMP_DEBUGGER_TOOL.generateRandomStock()
+    '''
+    exhaustive_method()
+    - generate combinations
+    dynamic_method()
 
-    # DEBUG
-    print("Parsed powerSet to be used for calculations:")
-    print(powerSet)
-    print("\n\n")
-    for i in range(len(powerSet)):
-        print(powerSet[i])
+    both will need ReadFile, perhaps used in different ways
+    - may be best that ReadFile stores all inputs from the file...
+    - the array issue may be fixed with array[i].append for 2d-array[][]
+    '''
 
 if __name__ == "__main__":
     main()
