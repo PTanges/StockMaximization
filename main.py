@@ -12,7 +12,7 @@ import SPMP_ExhaustiveApproach
 
 def main():
     if SPMP_SETTINGS.allowFailsafe:
-        if SPMP_ReadFile.isFileExist() is False:
+        if SPMP_ReadFile.isFileExist() is False or SPMP_DEBUGGER_TOOL.allowOverrideGeneration is True:
             print(f'Unable to find {SPMP_SETTINGS.inputFileName} in local folder.')
             print("Randomly generating new stocks...")
             SPMP_DEBUGGER_TOOL.generateRandomStock()

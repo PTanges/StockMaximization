@@ -1,15 +1,19 @@
 import random
 import SPMP_SETTINGS
 
-_defaultSampleSize = 1 # Quantity of test cases to be generated, must be int(n) > 0
+# Allows the program to write over either an existing inputFileName or a non-existing file
+# Allows dev to continually generate the file without manual deletion
+allowOverrideGeneration = False
+
+_defaultSampleSize = 10 # Quantity of test cases to be generated, must be int(n) > 0
 # Below: bounded range for stock-pair generation [min,max], must be int(n) > 0
 _minStockPrice = 1
 _maxStockPrice = 10
 _minStockValue = 1
 _maxStockValue = 15
-_minBudget = 1
-_maxBudget = 5
-# Below: bounded range for quantity of stock-pairs generated for (price, value)
+_minBudget = 5
+_maxBudget = 15
+# Below: bounded range for quantity of stock-pairs generated for (price, value), must be int(n) >= 0
 _minStockPairs = 0
 _maxStockPairs = 8
 

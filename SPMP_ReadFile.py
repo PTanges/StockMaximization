@@ -13,16 +13,19 @@ class Data():
         self._stockPairs = [] # list of tuples, as [price, value]
 
         # "Sequence Unpacking" for the tuple of variable length for stock-pairs
-        _sp = stockPairs.split(", ")
-        _tuple = tuple(int(i.replace("[", "").replace("]", "").strip()) for i in _sp)
-        _price = 0
-        _value = 0
-        for index, _number in enumerate(_tuple):
-            if index % 2 == 0:
-                _price = _number
-            else:
-                _value = _number
-                self._stockPairs.append((_price, _value))
+        if stockPairs.startswith("[]"): # edge case: []
+            self._stockPairs.append((0, 0))
+        else:
+            _sp = stockPairs.split(", ")
+            _tuple = tuple(int(i.replace("[", "").replace("]", "").strip()) for i in _sp)
+            _price = 0
+            _value = 0
+            for index, _number in enumerate(_tuple):
+                if index % 2 == 0:
+                    _price = _number
+                else:
+                    _value = _number
+                    self._stockPairs.append((_price, _value))
 
     @property
     def quantityStockPairs(self):
