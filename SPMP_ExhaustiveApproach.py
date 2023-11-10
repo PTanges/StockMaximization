@@ -50,9 +50,8 @@ def createPowerSet(quantityStockPairs) -> list[list]:
     for i in range(quantityStockPairs):
         _enumeration.append(i+1)
 
-    _combinations = list(powerset(_enumeration))
+    _combinations = [list(powerset(_enumeration))]
 
-    # Parse Combinations
     _text = str(_combinations[0])
     _combinations.clear()
     _combinations = _text.split("),")
