@@ -1,5 +1,4 @@
 import os.path
-
 import SPMP_SETTINGS
 from pathlib import Path
 

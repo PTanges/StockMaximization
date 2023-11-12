@@ -63,7 +63,7 @@ def createPowerSet(quantityStockPairs) -> list[list]:
 
 
 def write_output(bestValues) -> None:
-    with open(SPMP_SETTINGS.outputFileName, 'w') as file:
+    with open(SPMP_SETTINGS.outputFileNameEP, 'w') as file:
         for _value in bestValues:
             file.write(f'{_value}\n')
     # end with open

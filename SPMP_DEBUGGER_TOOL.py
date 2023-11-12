@@ -1,17 +1,29 @@
 import random
 import SPMP_SETTINGS
 
+# Allow generation of a new inputFileName file if the file isn't located
+allowFailsafe = True
+
+# Allows the program to write over either an existing inputFileName or a non-existing file
+# Allows dev to continually generate (and override) the file without manual deletion
+allowFileOverwrite = True
+
+# Allow computation of EP (and/or) DP after generating a new input file
+doRunMainEP = True
+doRunMainDP = False
+
 _defaultSampleSize = 10  # Quantity of test cases to be generated, must be int(n) > 0
-# Below: bounded range for stock-pair generation [min,max], must be int(n) > 0
+# Below: bounded range for stock-pair generation [min,max], must be int(n) > 0. Max must be >= min.
 _minStockPrice = 1
 _maxStockPrice = 10
 _minStockValue = 1
 _maxStockValue = 15
 _minBudget = 5
 _maxBudget = 15
-# Below: bounded range for quantity of stock-pairs generated for (price, value), must be int(n) >= 0
+# Below: bounded range for quantity of stock-pairs generated for (price, value), must be int(n) >= 0. Max must be >= min.
 _minStockPairs = 0
 _maxStockPairs = 8
+
 
 
 def generateRandomStock() -> None:
