@@ -2,13 +2,12 @@ import re
 from more_itertools import powerset
 
 import SPMP_ReadFile
-import SPMP_SETTINGS
 
 
-def exhaustive_method() -> None:
-    dataCase = SPMP_ReadFile.readFile(SPMP_ReadFile.getFilepath())
+def exhaustive_method(inputFileName, outputFileName) -> None:
+    dataCase = SPMP_ReadFile.readFile(SPMP_ReadFile.getFilepath(inputFileName))
     maximumValues = calculateOutput(dataCase)
-    write_output(maximumValues)
+    write_output(maximumValues, outputFileName)
 
 
 def calculateOutput(dataCase) -> list[int]:
@@ -62,8 +61,8 @@ def createPowerSet(quantityStockPairs) -> list[list]:
 # end funct
 
 
-def write_output(bestValues) -> None:
-    with open(SPMP_SETTINGS.outputFileNameEP, 'w') as file:
+def write_output(bestValues, outputFileName) -> None:
+    with open(outputFileName, 'w') as file:
         for _value in bestValues:
             file.write(f'{_value}\n')
     # end with open

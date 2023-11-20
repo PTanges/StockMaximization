@@ -93,7 +93,15 @@ def removeDuplicatePrices(stockPairs) -> list[tuple[int, int]]:
     _resultList = []
     # Solve for max value of a given price
     for count, PV in enumerate(priceValuePairs[1:]):
-        if _price == PV[0]:
+        # Edge Case: Multiple 0 prices
+        if _price == 0 or PV[0] == 0:
+            if _price == PV[0]:
+                _valueMax += PV[1]
+            else:
+                _resultList.append((_price, _valueMax))
+                _price = PV[0]
+                _valueMax = PV[1]
+        elif _price == PV[0]:
             if _valueMax <= PV[1]:
                 _valueMax = PV[1]
         else:
@@ -107,7 +115,7 @@ def removeDuplicatePrices(stockPairs) -> list[tuple[int, int]]:
     return _resultList
 
 
-def getFilepath() -> str:
+def getFilepath(fileName) -> str:
     path = Path(__file__).parent.absolute()
-    path = os.path.join(path, SPMP_SETTINGS.inputFileName)
+    path = os.path.join(path, fileName)
     return path
