@@ -9,6 +9,9 @@ class Data:
         self._budget = int(budget)
         self._stockPairs = parseAndPopulateTuple(stockPairs)
 
+        if len(self._stockPairs) != self._quantityStockPairs:
+            self.set_quantityStockPairs(len(self._stockPairs))
+
     @property
     def quantityStockPairs(self):
         return self._quantityStockPairs
@@ -20,6 +23,9 @@ class Data:
     @property
     def budget(self):
         return self._budget
+
+    def set_quantityStockPairs(self, newQSP):
+        self._quantityStockPairs = newQSP
 
 
 def readFile(path) -> list[Data]:
@@ -66,7 +72,39 @@ def parseAndPopulateTuple(stockPairs) -> list[tuple[int, int]]:
         else:
             _value = _number
             _stockPairs.append((_price, _value))
+
+    if len(_stockPairs) == 1:
+        return _stockPairs
+
+    _stockPairs.sort(key=lambda tup: tup[0])
+    _stockPairs = removeDuplicatePrices(_stockPairs)
+
     return _stockPairs
+
+
+def removeDuplicatePrices(stockPairs) -> list[tuple[int, int]]:
+    # Convert to list in order to perform operations
+    priceValuePairs = []
+    for i in stockPairs:
+        priceValuePairs.append(list(i))
+
+    _price = priceValuePairs[0][0]
+    _valueMax = priceValuePairs[0][1]
+    _resultList = []
+    # Solve for max value of a given price
+    for count, PV in enumerate(priceValuePairs[1:]):
+        if _price == PV[0]:
+            if _valueMax <= PV[1]:
+                _valueMax = PV[1]
+        else:
+            _resultList.append((_price, _valueMax))
+            _price = PV[0]
+            _valueMax = PV[1]
+        # Append Last Index
+        if count == (len(priceValuePairs)-2):
+            _resultList.append((_price, _valueMax))
+    # end for
+    return _resultList
 
 
 def getFilepath() -> str:
