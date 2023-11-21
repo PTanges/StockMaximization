@@ -17,6 +17,7 @@ defaultMaxStockPairs = 8
 
 PARAMETERS = ["cases", "price", "value", "budget", "pairs", "ALL"]
 
+
 class DebugData:
     def __init__(self):
         self._sampleSize = defaultSampleSize
