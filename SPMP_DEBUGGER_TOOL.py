@@ -113,9 +113,15 @@ class FileGenerator:
         with open(localFileName, 'w') as file:
             for i in range(_DbgData.sampleSize):
                 _quantityStockPair = self._generateQuantityStockPairs(_DbgData.minStockPairs, _DbgData.maxStockPairs)
+
+                if _quantityStockPair > (_DbgData.maxStockPrice - _DbgData.minStockPrice):
+                    _quantityStockPair = random.randint(_DbgData.minStockPrice, _DbgData.maxStockPrice)
+
                 _stockPairs = self._generateStockOutput(_quantityStockPair, _DbgData.minStockPrice,
                                                         _DbgData.maxStockPrice, _DbgData.minStockValue,
                                                         _DbgData.maxStockValue)
+                if _stockPairs == "[]":
+                    _quantityStockPair = 0
                 file.write(f'{_quantityStockPair}\n')
                 file.write(f'{_stockPairs}\n')
                 file.write(f'{random.randint(_DbgData.minBudget, _DbgData.maxBudget)}\n')
@@ -124,11 +130,16 @@ class FileGenerator:
 
     def _generateStockOutput(self, _quantityStockPair, minStockPrice, maxStockPrice, minStockValue,
                              maxStockValue) -> str:
+        if _quantityStockPair > (maxStockPrice - minStockPrice):
+            return "[]"
+
+        # Generate unique stockPrices
+        _randomPrices = random.sample(range(minStockPrice, maxStockPrice), _quantityStockPair)
         _line = "["
         for j in range(_quantityStockPair):
             if _quantityStockPair > 1:  # Formatting
                 _line += "["
-            _line += self._generateStockPair(minStockPrice, maxStockPrice, minStockValue, maxStockValue)
+            _line += self._generateStockPair(_randomPrices, j, minStockValue, maxStockValue)
             if _quantityStockPair > 1:  # Formatting
                 _line += "]"
             if j < _quantityStockPair - 1:  # Formatting
@@ -137,8 +148,8 @@ class FileGenerator:
         return _line
 
     @staticmethod
-    def _generateStockPair(minStockPrice, maxStockPrice, minStockValue, maxStockValue) -> str:
-        _line = str(random.randint(minStockPrice, maxStockPrice))
+    def _generateStockPair(_randomPrices, j, minStockValue, maxStockValue) -> str:
+        _line = str(_randomPrices[j])
         _line += ", "
         _line += str(random.randint(minStockValue, maxStockValue))
         return _line

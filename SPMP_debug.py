@@ -3,12 +3,13 @@ import SPMP_DEBUGGER_TOOL
 import SPMP_ExhaustiveApproach
 import SPMP_DynamicApproach
 import time
+import main
 
-PATTERNS = ["EP", "DP", "ALL"]
+PATTERNS = ["main", "EP-DBG", "DP-DBG", "ALL-DBG"]
 # To do: implement ability to alter input and output file names
 
 
-def main():
+def dbg_main():
     FileHandler = SPMP_DEBUGGER_TOOL.FileGenerator()
     DebugHandler = SPMP_DEBUGGER_TOOL.DebugData()
     print(f'Debugger initialized. Target File: {SPMP_SETTINGS.inputFileName.replace(".txt", "_dbg.txt")}')
@@ -102,10 +103,12 @@ def runPattern(args) -> None:
 
     _s = getTime()
     if args[0] == PATTERNS[0]:
-        SPMP_ExhaustiveApproach.exhaustive_method(local_IPFN, local_OPFN_EP)
+        main.main()
     elif args[0] == PATTERNS[1]:
-        SPMP_DynamicApproach.dynamic_method(local_IPFN, local_OPFN_DP)
+        SPMP_ExhaustiveApproach.exhaustive_method(local_IPFN, local_OPFN_EP)
     elif args[0] == PATTERNS[2]:
+        SPMP_DynamicApproach.dynamic_method(local_IPFN, local_OPFN_DP)
+    elif args[0] == PATTERNS[3]:
         SPMP_ExhaustiveApproach.exhaustive_method(local_IPFN, local_OPFN_EP)
         SPMP_DynamicApproach.dynamic_method(local_IPFN, local_OPFN_DP)
     _e = getTime()
@@ -117,11 +120,13 @@ def setGenParameters(args, DebugHandler) -> None:
     if args[0] == "ALL":
         _promptGenALL = "Enter nine integer values where max >= min and all values are int >= 0.\n"
         _promptGenALL += "Numbers should be as follows:\n\t"
-        _promptGenALL += "numOfCases minStockPrice maxStockPrice minStockValue maxStockValue minBudget maxBudget " \
-                         "minQSP maxQSP\n\t "
+        _promptGenALL += "numOfCases minStockPrice maxStockPrice minStockValue maxStockValue minBudget maxBudget" \
+                         " minQSP maxQSP\n\n\t"
         _promptGenALL += "- numOfCases refers to separate instances of data for companies, stock price values, " \
-                         "& budget\n\t "
-        _promptGenALL += "- QSP stands for 'quantity of stock pairs.' [price, value]...\n\t"
+                         "& budget\n\t"
+        _promptGenALL += "- QSP stands for 'quantity of stock pairs.' per case. [price, value]...\n\t"
+        _promptGenALL += "- and if generated QSP > [minStockPrice, maxStockPrice],\n\t"
+        _promptGenALL += "- then QSP will be generated in the range of [minStockPrice, maxStockPrice]"
         while True:
             print(_promptGenALL)
             _command = input("> ")
@@ -161,7 +166,7 @@ def setGenParameters(args, DebugHandler) -> None:
 
 
 def _validateGenAllInput(args):  # -> int, list[int]
-    _error = "Invalid amount or value-types given.\nInput eight integer values of min <= max and both <= 0.\n"
+    _error = "Invalid amount or value-types given.\nInput nine integer values of min <= max and both <= 0.\n"
     result = []
     try:
         _args = args.strip(" ").split(" ")
@@ -246,4 +251,4 @@ def _setDebugParameters(parameters, DebugHandler, args) -> None:
 
 
 if __name__ == "__main__":
-    main()
+    dbg_main()
